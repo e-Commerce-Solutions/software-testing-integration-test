@@ -76,7 +76,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <a id="backBtn" href="../../view/pay.html" class="btn btn-secondary">
+                        <a id="backBtn" href="../../view/payA.html" class="btn btn-secondary">
                             <i class="fa fa-reply"></i> ย้อนกลับ</a>
                     </div>
                 </div>
@@ -96,11 +96,11 @@
                                             <div class="statistics col-lg-12 col-12">
                                                 <div class="statistic d-flex align-items-center">
                                                     <div class="icon bg-pink">
-                                                        <i class="fa fa-mobile"></i>
+                                                        <i class="fa fa-tint"></i>
                                                     </div>
                                                     <div class="text">
                                                         <strong>
-                                                            <font class="pink">ค่าโทรศัพท์</font>
+                                                            <font class="pink">ค่าน้ำ</font>
                                                         </strong>
                                                     </div>
                                                 </div>
@@ -111,7 +111,7 @@
                                         <h2> ยอดค่าบริการ :
                                             <span id="charge" class="pink">charge</span> บาท
                                         </h2>
-                                        <form id="phoneForm" class="form-horizontal">
+                                        <form id="waterForm" class="form-horizontal">
                                             <div class="form-group row">
                                                 <input type="hidden" id="amount" value="">
                                                 <div class="col-md-12">
@@ -128,7 +128,6 @@
             </div>
         </section>
     </div>
-
     <!-- Javascript files-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="../../lib/js/tether.min.js"></script>
@@ -139,53 +138,52 @@
     <script src="../../lib/js/sweetalert2.js"></script>
     <script src="../../lib/js/cookie-mgmt.js"></script>
     <script type="text/javascript">
-      function loadCustInfo(){
-        var acctNum = readCookie("authentication");
-        if(acctNum){
-          $.ajax({
-            method: "POST",
-            url: "../../src/controller.php",
-            dataType: "json",
-            data: {
-              service:"ServiceAuthentication",
+        function loadCustInfo(){
+            var acctNum = readCookie("authentication");
+            if(acctNum){
+                $.ajax({
+                    method: "POST",
+                    url: "../../src/controller.php",
+                    dataType: "json",
+                    data: {
+                    service:"ServiceAuthentication",
+                    }
+                }).done(function (result) {
+                    if (result.isError){
+                        swal(
+                            'ผิดพลาด',
+                            result.message,
+                            'error'
+                        );
+                    }
+                    else{
+                        $("#charge").text(commaSeparateNumber(result.accWaterCharge));
+                    }
+                    }).fail(function(xhr,status,error){
+                    swal(
+                        'ผิดพลาด',
+                        error,
+                        'error'
+                    );
+                });
             }
-          })
-            .done(function (result) {
-              if (result.isError){
-                swal(
-                    'ผิดพลาด',
-                    result.message,
-                    'error'
-                );
-              }
-              else{
-                $("#charge").text(commaSeparateNumber(result.accPhoneCharge));
-              }
-            }).fail(function(xhr,status,error){
-              swal(
-                  'ผิดพลาด',
-                  error,
-                  'error'
-              );
-            });;
         }
-      }
-      function commaSeparateNumber(val) {
-          while (/(\d+)(\d{3})/.test(val.toString())) {
-              val = val.toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
-          }
-          return val;
-      }
+        function commaSeparateNumber(val) {
+            while (/(\d+)(\d{3})/.test(val.toString())) {
+                val = val.toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
+            }
+            return val;
+        }
 
-        $( "#phoneForm" ).submit(function( event ) {
+        $( "#waterForm" ).submit(function( event ) {
             $.ajax({
                 method: "POST",
                 url: "/src/controller.php",
                 dataType: "json",
                 data: {
-                    service:"BillPaymentInq",
+                    service:"BillPaymentInqA",
                     transaction: {
-                        bill_type : 'phoneCharge'
+                        bill_type : 'waterCharge'
                     }
                 }
             }).done(function (responseCharge) {
@@ -197,10 +195,10 @@
                     })
                 }
                 else{
-                    var accPhoneCharge = commaSeparateNumber(responseCharge.accPhoneCharge)
+                    var accWaterCharge = commaSeparateNumber(responseCharge.accWaterCharge)
                     swal({
-                        title: 'ชำระค่าโทรศัพท์',
-                        text: `ชำระค่าโทรศัพท์เป็นเงิน ${accPhoneCharge} บาท`,
+                        title: 'ชำระค่าน้ำ',
+                        text: `ชำระค่าน้ำเป็นเงิน ${accWaterCharge} บาท`,
                         type: "info",
                         showCancelButton: true,
                         confirmButtonText: 'ยืนยัน',
@@ -213,9 +211,9 @@
                                 url: "/src/controller.php",
                                 dataType: "json",
                                 data: {
-                                    service:"BillPayment",
+                                    service:"BillPaymentA",
                                     transaction: {
-                                        bill_type : 'phoneCharge'
+                                        bill_type : 'waterCharge'
                                     }
                                 }
                             }).done(function (responseBalance) {
@@ -228,9 +226,9 @@
                                 }
                                 else{
                                     var accBalance = commaSeparateNumber(responseBalance.accBalance)
-                                    $("#charge").text(commaSeparateNumber(responseBalance.accPhoneCharge));
+                                    $("#charge").text(commaSeparateNumber(responseBalance.accWaterCharge));
                                     swal({
-                                        title: 'ชำระค่าโทรศัพท์เรียบร้อย',
+                                        title: 'ชำระค่าน้ำเรียบร้อย',
                                         text: `ยอดเงินคงเหลือ = ${accBalance} บาท`,
                                         type: "success",
                                     })
