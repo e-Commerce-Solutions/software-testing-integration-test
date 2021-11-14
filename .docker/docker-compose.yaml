@@ -1,0 +1,8 @@
+version: "3.7"
+
+services:
+  api:
+    build: .
+    tty: true
+    ports:
+      - 8080:80
