@@ -76,7 +76,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <a id="backBtn" href="../../view/pay.html" class="btn btn-secondary">
+                        <a id="backBtn" href="../../view/payB.html" class="btn btn-secondary">
                             <i class="fa fa-reply"></i> ย้อนกลับ</a>
                     </div>
                 </div>
@@ -181,7 +181,7 @@
                 url: "/src/controller.php",
                 dataType: "json",
                 data: {
-                    service:"BillPaymentInq",
+                    service:"BillPaymentInqB",
                     transaction: {
                         bill_type : 'waterCharge'
                     }
@@ -211,7 +211,7 @@
                                 url: "/src/controller.php",
                                 dataType: "json",
                                 data: {
-                                    service:"BillPayment",
+                                    service:"BillPaymentB",
                                     transaction: {
                                         bill_type : 'waterCharge'
                                     }

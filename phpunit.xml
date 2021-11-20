@@ -1,11 +1,14 @@
 <phpunit>
     <testsuites>
-        <testsuite name="Deposit">
+        <!-- <testsuite name="Deposit">
             <directory suffix="Test.php">test/Deposit</directory>
+        </testsuite> -->
+         <testsuite name="Run All Test">
+            <directory suffix="Test.php">./test</directory>
         </testsuite>
     </testsuites>
-    <!--
-    <testsuites>
+    
+    <!-- <testsuites>
         <testsuite name="Operation">
             <directory suffix="Test.php">test</directory>
         </testsuite>
@@ -14,6 +17,6 @@
             <directory suffix="Test.php">test</directory>
         </testsuite>
        
-    </testsuites>
-     -->
+    </testsuites> -->
+    
 </phpunit>
