@@ -1,0 +1,46 @@
+services:
+  db:
+    environment:
+      MYSQL_ROOT_PASSWORD: notSecureChangeMe
+    image: mariadb:10.3
+    labels:
+      com.docker.devenvironments.compose: "true"
+      com.docker.devenvironments.name: software-testing-integration-test-zealous_knuth
+    networks:
+      default: null
+    restart: always
+  phpmyadmin:
+    command:
+    - infinity
+    entrypoint:
+    - sleep
+    environment:
+      PMA_ARBITRARY: "1"
+    image: phpmyadmin
+    init: true
+    labels:
+      com.docker.devenvironments.compose: "true"
+      com.docker.devenvironments.container: "true"
+      com.docker.devenvironments.name: software-testing-integration-test-zealous_knuth
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 80
+      published: 8080
+      protocol: tcp
+    restart: always
+    stop_signal: SIGKILL
+    volumes:
+    - type: bind
+      source: /Users/tnnkrt/Repositories/software-testing-integration-test
+      target: /com.docker.devenvironments.code
+    - type: volume
+      source: vsCodeServerVolume-software-testing-integration-test-zealous_knuth-phpmyadmin
+      target: /home/vscode
+networks:
+  default:
+    name: software-testing-integration-test-zealous_knuth_default
+volumes:
+  vsCodeServerVolume-software-testing-integration-test-zealous_knuth-phpmyadmin:
+    name: vsCodeServerVolume-software-testing-integration-test-zealous_knuth-phpmyadmin

@@ -16,8 +16,11 @@
       if($requestURI == '/deposit') {
       	include 'view/deposit.html';
       }
-      elseif($requestURI == '/pay') {
-      	include 'view/pay.html';
+      elseif($requestURI == '/payA') {
+      	include 'view/payA.html';
+      }
+      elseif($requestURI == '/payB') {
+      	include 'view/payB.html';
       }
       elseif($requestURI == '/pay/electric') {
         include 'view/pay/electric.html';

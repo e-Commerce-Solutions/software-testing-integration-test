@@ -76,7 +76,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <a id="backBtn" href="../../view/pay.html" class="btn btn-secondary">
+                        <a id="backBtn" href="../../view/payB.html" class="btn btn-secondary">
                             <i class="fa fa-reply"></i> ย้อนกลับ</a>
                     </div>
                 </div>
@@ -96,11 +96,11 @@
                                             <div class="statistics col-lg-12 col-12">
                                                 <div class="statistic d-flex align-items-center">
                                                     <div class="icon bg-pink">
-                                                        <i class="fa fa-flash"></i>
+                                                        <i class="fa fa-mobile"></i>
                                                     </div>
                                                     <div class="text">
                                                         <strong>
-                                                            <font class="pink">ค่าไฟฟ้า</font>
+                                                            <font class="pink">ค่าโทรศัพท์</font>
                                                         </strong>
                                                     </div>
                                                 </div>
@@ -111,7 +111,7 @@
                                         <h2> ยอดค่าบริการ :
                                             <span id="charge" class="pink">charge</span> บาท
                                         </h2>
-                                        <form id="electricForm" class="form-horizontal">
+                                        <form id="phoneForm" class="form-horizontal">
                                             <div class="form-group row">
                                                 <input type="hidden" id="amount" value="">
                                                 <div class="col-md-12">
@@ -159,7 +159,7 @@
                 );
               }
               else{
-                $("#charge").text(commaSeparateNumber(result.accElectricCharge));
+                $("#charge").text(commaSeparateNumber(result.accPhoneCharge));
               }
             }).fail(function(xhr,status,error){
               swal(
@@ -177,15 +177,15 @@
           return val;
       }
 
-        $( "#electricForm" ).submit(function( event ) {
+        $( "#phoneForm" ).submit(function( event ) {
             $.ajax({
                 method: "POST",
                 url: "/src/controller.php",
                 dataType: "json",
                 data: {
-                    service:"BillPaymentInq",
+                    service:"BillPaymentInqB",
                     transaction: {
-                        bill_type : 'electricCharge'
+                        bill_type : 'phoneCharge'
                     }
                 }
             }).done(function (responseCharge) {
@@ -197,10 +197,10 @@
                     })
                 }
                 else{
-                    var accElectricCharge = commaSeparateNumber(responseCharge.accElectricCharge)
+                    var accPhoneCharge = commaSeparateNumber(responseCharge.accPhoneCharge)
                     swal({
-                        title: 'ชำระค่าไฟฟ้า',
-                        text: `ชำระค่าไฟฟ้าเป็นเงิน ${accElectricCharge} บาท`,
+                        title: 'ชำระค่าโทรศัพท์',
+                        text: `ชำระค่าโทรศัพท์เป็นเงิน ${accPhoneCharge} บาท`,
                         type: "info",
                         showCancelButton: true,
                         confirmButtonText: 'ยืนยัน',
@@ -213,9 +213,9 @@
                                 url: "/src/controller.php",
                                 dataType: "json",
                                 data: {
-                                    service:"BillPayment",
+                                    service:"BillPaymentB",
                                     transaction: {
-                                        bill_type : 'electricCharge'
+                                        bill_type : 'phoneCharge'
                                     }
                                 }
                             }).done(function (responseBalance) {
@@ -228,9 +228,9 @@
                                 }
                                 else{
                                     var accBalance = commaSeparateNumber(responseBalance.accBalance)
-                                    $("#charge").text(commaSeparateNumber(responseBalance.accElectricCharge));
+                                    $("#charge").text(commaSeparateNumber(responseBalance.accPhoneCharge));
                                     swal({
-                                        title: 'ชำระค่าไฟฟ้าเรียบร้อย',
+                                        title: 'ชำระค่าโทรศัพท์เรียบร้อย',
                                         text: `ยอดเงินคงเหลือ = ${accBalance} บาท`,
                                         type: "success",
                                     })

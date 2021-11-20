@@ -8,7 +8,7 @@ require_once __DIR__.'./../serviceauthentication/serviceauthentication.php';
 require_once __DIR__.'./../serviceauthentication/AccountInformationException.php';
 require_once __DIR__.'./../serviceauthentication/DBConnection.php';
 
-class billpayment {
+class billpaymentB {
 
     private $accNo = '';
 

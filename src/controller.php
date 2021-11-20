@@ -8,14 +8,16 @@ require_once "authentication/authentication.php";
 require_once "withdraw/Withdrawal.php";
 require_once "deposit/DepositService.php";
 require_once "transfer/transfer.php";
-require_once "billpayment/billpayment.php";
+require_once "billpayment/billpaymentA.php";
+require_once "billpayment/billpaymentB.php";
 require_once "serviceauthentication/serviceauthentication.php";
 
 use Operation\Authentication;
 use Operation\DepositService;
 use Operation\Withdrawal;
 use Operation\Transfer;
-use Operation\BillPayment;
+use Operation\BillPaymentA;
+use Operation\BillPaymentB;
 
 $logFile = "../errorlog.txt";
 $service = $_POST["service"];
@@ -44,14 +46,24 @@ try{
         $transfer = new Transfer($transaction["srcNumber"],$transaction["srcName"]);
         echo json_encode($transfer->doTransfer($transaction["targetNumber"],$transaction["amount"]));
       }
-      elseif ($service == "BillPayment"){
+      elseif ($service == "BillPaymentA"){
         $transaction = $_POST["transaction"];
-        $billPayment = new BillPayment($session);
+        $billPayment = new BillPaymentA($session);
         echo json_encode($billPayment->pay($transaction["bill_type"]));
       }
-      elseif ($service == "BillPaymentInq"){
+      elseif ($service == "BillPaymentB"){
         $transaction = $_POST["transaction"];
-        $billPayment = new BillPayment($session);
+        $billPayment = new BillPaymentB($session);
+        echo json_encode($billPayment->pay($transaction["bill_type"]));
+      }
+      elseif ($service == "BillPaymentInqA"){
+        $transaction = $_POST["transaction"];
+        $billPayment = new BillPaymentA($session);
+        echo json_encode($billPayment->getBill($transaction["bill_type"]));
+      }
+      elseif ($service == "BillPaymentInqB"){
+        $transaction = $_POST["transaction"];
+        $billPayment = new BillPaymentB($session);
         echo json_encode($billPayment->getBill($transaction["bill_type"]));
       }
       elseif ($service == "ServiceAuthentication"){
